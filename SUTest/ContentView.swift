@@ -12,48 +12,34 @@ struct ContentView: View {
   @State var viewDidLoad = false
   @State private var mocks: [Model] = [.init(header: "t1", body: "b1", footers: ["123"], selectedFooters: [false])]
   @State private var isLoading = false
+  @State private var showDetailView = false
+  @State private var selectedRow: Int = 0
   
   var body: some View {
-    NavigationView(content: {
-      
-      
-      ScrollView {
-        LazyVStack(alignment: .leading) {
-          ForEach(0..<mocks.count, id: \.self) { row in
-          NavigationLink {
-            Test2View(model: $mocks[row])
-          } label: {
-                Cell(model: $mocks[row])
+    ScrollView {
+      LazyVStack(alignment: .leading) {
+        ForEach(0..<mocks.count, id: \.self) { row in
+          Cell(model: $mocks[row])
+            .onTapGesture {
+              selectedRow = row
+              showDetailView.toggle()
             }
-          }
           
-        }.padding()
-          .onAppear {
-            if !viewDidLoad {
-              self.mocks = Model.generateMocks()
-            }
-            viewDidLoad = true
-            
-          }
-      }
-    })
-  }
-  
-  
-    private func generateMocks() {
-        var newMocks: [Model] = []
-        for i in 0 ..< 20 {
-          var mock: Model = .init(header: "header\(i)", body: "body\(i)", footers: [], selectedFooters: [])
-          var footers: [String] = []
-          for i in 1 ... Int.random(in: 3 ... 20) {
-            let random = Int.random(in: 10...1000)
-            footers.append("\(random)")
-          }
-          mock.footers = footers
-          newMocks.append(mock)
         }
-        mocks = newMocks
+        
+      }.padding()
+        .onAppear {
+          if !viewDidLoad {
+            self.mocks = Model.generateMocks()
+          }
+          viewDidLoad = true
+          
+        }
+    }.sheet(isPresented: $showDetailView, content: {
+      Test2View(model: $mocks[selectedRow], show: $showDetailView)
+    })
     }
+  
 }
 
 struct Cell: View {
@@ -89,8 +75,6 @@ struct Cell: View {
               }
             }
           }
-        
-        
       }
       
     }, horizontalSpace: 8, verticalSpace: 8)
@@ -168,5 +152,5 @@ struct FlowLayout<Content: View>: View {
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
