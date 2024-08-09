@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct Test2View: View {
+struct BindingView: View {
   @Binding var show: Bool
-  @Binding var model: Model
-  @State var originalModel: Model
+  @Binding var model: StructModel
+  @State var originalModel: StructModel
   
-  init(model: Binding<Model>, show: Binding<Bool>) {
+  init(model: Binding<StructModel>, show: Binding<Bool>) {
     self._show = show
     self._model = model
     self._originalModel = .init(initialValue: model.wrappedValue)
@@ -37,7 +37,7 @@ struct Test2View: View {
 }
 
 #Preview {
-  Test2View(model: .constant(.init(header: "t", body: "2", footers: ["123"], selectedFooters: [false])), show: .constant(true))
+  BindingView(model: .constant(.init(header: "t", body: "2", footers: ["123"], selectedFooters: [false])), show: .constant(true))
 }
 
 
