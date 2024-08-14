@@ -29,3 +29,35 @@ struct StructModel: Identifiable, Hashable {
       return newMocks
   }
 }
+
+struct StructUser: Identifiable, Hashable {
+  static func == (lhs: StructUser, rhs: StructUser) -> Bool {
+    lhs.id == rhs.id
+  }
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+    hasher.combine(name)
+  }
+  
+
+  
+  var id: UUID = UUID()
+  var name: String
+  var address: StructAddress
+  var classAddress: ClassAddress
+}
+
+struct StructAddress {
+  var state: String
+  var detail: String
+}
+
+class ClassAddress: ObservableObject {
+  @Published var state: String
+  @Published var detail: String
+  
+  init(state: String, detail: String) {
+    self.state = state
+    self.detail = detail
+  }
+}
