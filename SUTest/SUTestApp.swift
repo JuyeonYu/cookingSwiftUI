@@ -11,7 +11,7 @@ import SwiftUI
 struct SUTestApp: App {
     var body: some Scene {
         WindowGroup {
-            StateView()
+          Main()
         }
     }
 }
