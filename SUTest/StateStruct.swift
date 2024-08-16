@@ -29,7 +29,9 @@ struct StateStruct: View {
 }
 
 
-struct User {
+struct User: Identifiable {
+  var id: UUID = UUID()
+  
   var name: String
   var age: Int
 }
