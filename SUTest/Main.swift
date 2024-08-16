@@ -18,11 +18,15 @@ struct Main: View {
     "import UICollectionView"
   ]
   
-  @State var show1: Bool = false
-  @State var show2: Bool = false
-  @State var show3: Bool = false
-  @State var show4: Bool = false
-  @State var show5: Bool = false
+//  @State var show1: Bool = false
+//  @State var show2: Bool = false
+//  @State var show3: Bool = false
+//  @State var show4: Bool = false
+//  @State var show5: Bool = false
+  
+  @State var shows: [Bool] = [
+    false, false,false,false,false
+  ]
 
   @State var urls: [URL] = [
     URL(string: "https://t3.ftcdn.net/jpg/01/42/62/84/360_F_142628436_BdXXMV34Xf665lwSRmBbAVICjFXh7vG9.jpg")!,
@@ -37,34 +41,28 @@ struct Main: View {
 
     var body: some View {
       List {
-        ForEach(items, id: \.self) { item in
+        ForEach(0 ..< items.count, id: \.self, content: { row in
+          let item = items[row]
+          
           Button(item) {
-            if item == items[0] {
-              show1 = true
-            } else if item == items[1] {
-              show2 = true
-            } else if item == items[2] {
-              show3 = true
-            } else if item == items[3] {
-              show4 = true
-            } else if item == items[4] {
-              show5 = true
+            if item == items[row] {
+              shows[row] = true
             }
           }
-        }
-        .sheet(isPresented: $show1, content: {
+        })
+        .sheet(isPresented: $shows[0], content: {
           StateView()
         })
-        .sheet(isPresented: $show2, content: {
+        .sheet(isPresented: $shows[1], content: {
           StateViewWithNestedStruct()
         })
-        .sheet(isPresented: $show3, content: {
+        .sheet(isPresented: $shows[2], content: {
           StateObjectView()
         })
-        .sheet(isPresented: $show4, content: {
+        .sheet(isPresented: $shows[3], content: {
           HScrollView(urls: $urls)
         })
-        .sheet(isPresented: $show5, content: {
+        .sheet(isPresented: $shows[4], content: {
           CollectionView(urls: $urls)
         })
       }
