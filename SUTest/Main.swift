@@ -15,7 +15,9 @@ struct Main: View {
     "State & Binding with nested Struct",
     "StateObject & OnservedObject",
     "move item in ScrollView with HStackView",
-    "import UICollectionView"
+    "import UICollectionView",
+    "chip in scrollview",
+    "textfield in scrollview"
   ]
   
 //  @State var show1: Bool = false
@@ -25,7 +27,7 @@ struct Main: View {
 //  @State var show5: Bool = false
   
   @State var shows: [Bool] = [
-    false, false,false,false,false
+    false, false,false,false,false, false, false
   ]
 
   @State var urls: [URL] = [
@@ -64,6 +66,12 @@ struct Main: View {
         })
         .sheet(isPresented: $shows[4], content: {
           CollectionView(urls: $urls)
+        })
+        .sheet(isPresented: $shows[5], content: {
+          ChipInScrollView()
+        })
+        .sheet(isPresented: $shows[6], content: {
+          TextFieldInScrollView()
         })
       }
     }
